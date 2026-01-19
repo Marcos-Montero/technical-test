@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  padding: 48px 0 16px 0;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px 0;
+  }
+}
+
+.legend {
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+.filterButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 8px;
+  transition:
+    transform 0.1s ease,
+    opacity 0.2s ease;
+}
+
+.filterButton:hover {
+  transform: translate3d(-1px, -2px, 0);
+}
+
+.filterButton:focus-visible {
+  box-shadow: 0 0 8px 12px var(--color-primary);
+}
+
+.badge {
+  pointer-events: none;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  padding: 8px 16px;
+  line-height: 2;
+}
+
+.active .badge {
+  box-shadow: 0 0 4px 0px var(--color-primary);
+}
+
+.inactive {
+  opacity: 0.5;
+}
