@@ -1,0 +1,67 @@
+.tableRow {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.roleCell,
+.nameCell,
+.titleCell,
+.teamCell,
+.actionCell {
+  padding: 16px;
+  vertical-align: middle;
+}
+
+.badge {
+  width: 60px;
+  height: 24px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.name {
+  width: 150px;
+  height: 20px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.role {
+  width: 120px;
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.team {
+  width: 100px;
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.viewButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin-left: auto;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
