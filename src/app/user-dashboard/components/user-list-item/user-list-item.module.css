@@ -1,0 +1,69 @@
+.tableRow {
+  cursor: pointer;
+}
+
+.roleCell {
+  padding: 16px;
+  vertical-align: middle;
+}
+
+.badge {
+  display: inline-block;
+}
+
+.nameCell {
+  padding: 16px;
+  vertical-align: middle;
+  max-width: 200px;
+}
+
+.name {
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  max-width: 100%;
+  line-height: 1;
+}
+
+.titleCell {
+  padding: 16px;
+  vertical-align: middle;
+}
+
+.role {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  color: #666;
+  line-height: 0.8;
+}
+
+.teamCell {
+  padding: 16px;
+  vertical-align: middle;
+}
+
+.team {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  color: #1a1a1a;
+  line-height: 1;
+}
+
+.actionCell {
+  padding: 16px;
+  vertical-align: middle;
+  text-align: right;
+}
+
+.viewButton {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  padding: 0;
+}

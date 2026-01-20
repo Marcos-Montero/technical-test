@@ -1,0 +1,47 @@
+.usersTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-size: 12px;
+}
+
+.usersTable thead {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+}
+
+.usersTable th {
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-align: left;
+  padding: 12px 8px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.usersTable th:last-child {
+  text-align: right;
+}
+
+.usersTable tbody tr {
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.2s ease;
+}
+
+.usersTable tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+@media (min-width: 768px) {
+  .usersTable {
+    font-size: 14px;
+  }
+
+  .usersTable th {
+    font-size: 14px;
+    padding: 16px;
+  }
+}
