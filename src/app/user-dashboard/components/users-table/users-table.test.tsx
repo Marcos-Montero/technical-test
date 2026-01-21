@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import type { User } from "../../types";
+import type { User } from "../../../types";
 import { UsersTable } from "./users-table";
 
 const mockUsers: User[] = [

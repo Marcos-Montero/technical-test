@@ -46,10 +46,10 @@
   font-weight: 400;
   color: var(--color-text-secondary);
   text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
   white-space: nowrap;
   flex-shrink: 0;
+  float: left;
+  padding: 0;
 }
 
 .filterButton {

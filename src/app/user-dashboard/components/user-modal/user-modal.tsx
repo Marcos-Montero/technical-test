@@ -1,7 +1,7 @@
 import { type KeyboardEvent, useEffect, useRef } from "react";
 import { Badge } from "../../../../components/atoms/badge";
 import { Button } from "../../../../components/atoms/button";
-import type { User } from "../../types";
+import type { User } from "../../../types";
 import styles from "./user-modal.module.css";
 
 export const UserModal = ({ user, onClose }: { user: User; onClose: () => void }) => {

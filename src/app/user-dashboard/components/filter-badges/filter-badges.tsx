@@ -20,8 +20,8 @@ export const FilterBadges = ({
 
   return (
     <div className={cn(styles.wrapper, isCollapsed && styles.collapsed)}>
-      <fieldset className={styles.container} aria-label="Filter users by role">
-        <span className={styles.legend}>Filter by:</span>
+      <fieldset className={styles.container}>
+        <legend className={styles.legend}>Filter by:</legend>
         {ROLES.map((role) => (
           <button
             key={role}
@@ -35,7 +35,10 @@ export const FilterBadges = ({
             aria-pressed={isActive(role)}
             aria-label={`Filter by ${role} role`}
           >
-            <Badge variant={role} className={cn(styles.badge, isCollapsed && styles.collapsedBadge)}>
+            <Badge
+              variant={role}
+              className={cn(styles.badge, isCollapsed && styles.collapsedBadge)}
+            >
               {role.toUpperCase()}
             </Badge>
           </button>

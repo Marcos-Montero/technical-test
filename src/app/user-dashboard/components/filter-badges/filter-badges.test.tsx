@@ -18,7 +18,7 @@ describe("FilterBadges", () => {
     expect(screen.getByText(/filter by/i)).toBeInTheDocument();
   });
 
-  it("does not render a legend element (uses inline label)", () => {
+  it("renders a proper legend element for accessibility", () => {
     const { container } = render(
       <FilterBadges
         activeFilters={defaultActiveFilters}
@@ -26,8 +26,9 @@ describe("FilterBadges", () => {
         allActive={false}
       />,
     );
-    expect(container.querySelector("legend")).toBeNull();
-    expect(screen.getByText(/filter by/i)).toBeInTheDocument();
+    const legend = container.querySelector("legend");
+    expect(legend).toBeInTheDocument();
+    expect(legend).toHaveTextContent(/filter by/i);
   });
 
   it("renders all role badges", () => {
@@ -76,7 +77,7 @@ describe("FilterBadges", () => {
     );
   });
 
-  it("has proper group role for accessibility", () => {
+  it("has proper group role with legend for accessibility", () => {
     render(
       <FilterBadges
         activeFilters={defaultActiveFilters}
@@ -84,7 +85,9 @@ describe("FilterBadges", () => {
         allActive={false}
       />,
     );
-    expect(screen.getByRole("group")).toHaveAttribute("aria-label", "Filter users by role");
+    const group = screen.getByRole("group");
+    expect(group).toBeInTheDocument();
+    expect(group).toHaveAccessibleName(/filter by/i);
   });
 
   it("applies active styles only when allActive is false", () => {

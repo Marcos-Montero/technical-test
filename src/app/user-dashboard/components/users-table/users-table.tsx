@@ -1,4 +1,4 @@
-import type { User } from "../../types";
+import type { User } from "../../../types";
 import { UserListItem } from "../user-list-item/user-list-item";
 import { UserListSkeleton } from "../user-list-skeleton/user-list-skeleton";
 import styles from "./users-table.module.css";
@@ -23,7 +23,9 @@ export const UsersTable = ({
           <th>Role</th>
           <th>Title</th>
           <th>Team</th>
-          <th></th>
+          <th>
+            <span className={styles.srOnly}>Actions</span>
+          </th>
         </tr>
       </thead>
       <tbody>

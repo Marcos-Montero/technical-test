@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import type { User } from "../../types";
+import type { User } from "../../../types";
 import { UserCard } from "./user-card";
 
 const mockUser: User = {

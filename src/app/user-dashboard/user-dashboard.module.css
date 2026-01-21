@@ -79,7 +79,7 @@
 .filterSection {
   width: 100%;
   max-width: 100%;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #63666a;
   padding: 0 20px;
   box-sizing: border-box;
 }
@@ -218,7 +218,8 @@
 
     padding-top: calc(
       var(--expanded-padding) -
-        (var(--expanded-padding) - var(--collapsed-padding)) * var(--scroll-progress)
+      (var(--expanded-padding) - var(--collapsed-padding)) *
+      var(--scroll-progress)
     );
   }
 
@@ -244,11 +245,10 @@
   .collapsible .title {
     font-size: calc(
       var(--title-expanded) -
-        (var(--title-expanded) - var(--title-collapsed)) * var(--scroll-progress)
+      (var(--title-expanded) - var(--title-collapsed)) *
+      var(--scroll-progress)
     );
-    margin-bottom: calc(
-      var(--title-margin-expanded) * (1 - var(--scroll-progress))
-    );
+    margin-bottom: calc(var(--title-margin-expanded) * (1 - var(--scroll-progress)));
   }
 
   .searchSection {
@@ -260,7 +260,8 @@
   .collapsible .searchSection {
     max-width: calc(
       var(--search-max-expanded) -
-        (var(--search-max-expanded) - var(--search-max-collapsed)) * var(--scroll-progress)
+      (var(--search-max-expanded) - var(--search-max-collapsed)) *
+      var(--scroll-progress)
     );
     padding: 0 calc(20px * (1 - var(--scroll-progress)));
     flex-shrink: 1;
