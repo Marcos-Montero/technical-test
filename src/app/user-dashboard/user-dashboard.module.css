@@ -32,6 +32,10 @@
   outline-offset: 2px;
 }
 
+.header {
+  display: contents;
+}
+
 .titleLink {
   text-decoration: none;
   color: inherit;
@@ -202,20 +206,72 @@
 
 @media (min-width: 768px) {
   .container {
-    padding-top: 192px;
+    --scroll-progress: 0;
+    --expanded-padding: 192px;
+    --collapsed-padding: 0px;
+    --title-expanded: 48px;
+    --title-collapsed: 24px;
+    --title-margin-expanded: 40px;
+    --title-margin-collapsed: 0px;
+    --search-max-expanded: 560px;
+    --search-max-collapsed: 400px;
+
+    padding-top: calc(
+      var(--expanded-padding) -
+        (var(--expanded-padding) - var(--collapsed-padding)) * var(--scroll-progress)
+    );
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .titleLink {
+    flex-shrink: 0;
+    transform-origin: left center;
+    will-change: transform;
   }
 
   .title {
-    font-size: 48px;
-    margin-bottom: 40px;
+    font-size: var(--title-expanded);
+    margin-bottom: var(--title-margin-expanded);
+    white-space: nowrap;
+  }
+
+  .collapsible .title {
+    font-size: calc(
+      var(--title-expanded) -
+        (var(--title-expanded) - var(--title-collapsed)) * var(--scroll-progress)
+    );
+    margin-bottom: calc(
+      var(--title-margin-expanded) * (1 - var(--scroll-progress))
+    );
   }
 
   .searchSection {
-    max-width: 560px;
+    max-width: var(--search-max-expanded);
+    padding: 0 20px;
+    will-change: transform;
+  }
+
+  .collapsible .searchSection {
+    max-width: calc(
+      var(--search-max-expanded) -
+        (var(--search-max-expanded) - var(--search-max-collapsed)) * var(--scroll-progress)
+    );
+    padding: 0 calc(20px * (1 - var(--scroll-progress)));
+    flex-shrink: 1;
   }
 
   .filterSection {
     padding: 0;
+  }
+
+  .collapsible .filterSection {
+    padding: 0 calc(24px * var(--scroll-progress));
   }
 
   .viewControls {
@@ -226,6 +282,10 @@
     padding: 8px 0;
   }
 
+  .collapsible .viewControls {
+    padding: 8px calc(24px * var(--scroll-progress));
+  }
+
   .cardsGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     padding: 0;
@@ -234,24 +294,44 @@
   .resultsArea {
     max-width: 1200px;
   }
+
+  .collapsible .resultsArea {
+    max-width: calc(1200px + (100% - 1200px) * var(--scroll-progress));
+    padding: 0 calc(24px * var(--scroll-progress));
+    box-sizing: border-box;
+  }
+
+  .collapsible .resultsList {
+    padding-top: calc(16px * var(--scroll-progress));
+  }
 }
 
 @media (min-width: 1024px) {
   .container {
-    max-width: 1024px;
-    padding-top: 192px;
+    --expanded-padding: 192px;
+    --title-expanded: 60px;
+    --title-collapsed: 28px;
+    --title-margin-expanded: 48px;
+    --search-max-collapsed: 450px;
+    max-width: calc(1024px + (100% - 1024px) * var(--scroll-progress));
   }
 
-  .title {
-    font-size: 60px;
-    margin-bottom: 48px;
+  .resultsArea {
+    max-width: 1024px;
+  }
+
+  .collapsible .cardsGrid {
+    padding: 0;
   }
 }
 
 @media (min-width: 1280px) {
   .container {
-    padding-top: 196px;
-    max-width: 1280px;
+    --expanded-padding: 196px;
+    --title-expanded: 60px;
+    --title-collapsed: 32px;
+    --search-max-collapsed: 500px;
+    max-width: calc(1280px + (100% - 1280px) * var(--scroll-progress));
   }
 
   .resultsArea {

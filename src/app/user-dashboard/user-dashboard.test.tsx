@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { UserDashboard } from "./user-dashboard";
@@ -6,6 +6,7 @@ import { UserDashboard } from "./user-dashboard";
 describe("UserDashboard", () => {
   beforeEach(() => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
+    window.innerWidth = 1280;
   });
 
   afterEach(() => {
@@ -48,7 +49,9 @@ describe("UserDashboard", () => {
     await user.type(input, "George");
     await user.click(screen.getByRole("button", { name: /^search$/i }));
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
 
     await waitFor(() => {
       expect(screen.getByText("George Harris")).toBeInTheDocument();
@@ -63,7 +66,9 @@ describe("UserDashboard", () => {
     await user.type(input, "ar");
     await user.click(screen.getByRole("button", { name: /^search$/i }));
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
 
     await waitFor(() => {
       expect(screen.getByText(/filter by/i)).toBeInTheDocument();
@@ -78,7 +83,9 @@ describe("UserDashboard", () => {
     await user.type(input, "ar");
     await user.click(screen.getByRole("button", { name: /^search$/i }));
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
 
     await waitFor(() => {
       expect(screen.getByText(/filter by/i)).toBeInTheDocument();
@@ -101,7 +108,9 @@ describe("UserDashboard", () => {
     await user.type(input, "ar");
     await user.click(screen.getByRole("button", { name: /^search$/i }));
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
 
     await waitFor(() => {
       expect(screen.getByText(/filter by/i)).toBeInTheDocument();
@@ -125,7 +134,9 @@ describe("UserDashboard", () => {
     await user.type(input, "ar");
     await user.click(screen.getByRole("button", { name: /^search$/i }));
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
 
     await waitFor(() => {
       expect(screen.getByText(/filter by/i)).toBeInTheDocument();
@@ -149,7 +160,9 @@ describe("UserDashboard", () => {
     await user.type(input, "George");
     await user.click(screen.getByRole("button", { name: /^search$/i }));
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
 
     await waitFor(() => {
       expect(screen.getByText("George Harris")).toBeInTheDocument();
@@ -169,7 +182,9 @@ describe("UserDashboard", () => {
     await user.type(input, "George");
     await user.click(screen.getByRole("button", { name: /^search$/i }));
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
 
     await waitFor(() => {
       expect(screen.getByText("George Harris")).toBeInTheDocument();
@@ -194,7 +209,9 @@ describe("UserDashboard", () => {
     await user.type(input, "xyz");
     await user.click(screen.getByRole("button", { name: /^search$/i }));
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
 
     await waitFor(() => {
       expect(screen.getByText(/no users found/i)).toBeInTheDocument();
@@ -222,10 +239,97 @@ describe("UserDashboard", () => {
     const input = screen.getByPlaceholderText(/search by name/i);
     await user.type(input, "Arianna{Enter}");
 
-    await vi.advanceTimersByTimeAsync(1000);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
 
     await waitFor(() => {
       expect(screen.getByText("Arianna Russo")).toBeInTheDocument();
     });
+  });
+
+  it("proxies wheel scrolling on the page into the results list (desktop)", async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+
+    const rafSpy = vi
+      .spyOn(window, "requestAnimationFrame")
+      .mockImplementation((cb: FrameRequestCallback) => {
+        cb(0);
+        return 1;
+      });
+    const cancelSpy = vi.spyOn(window, "cancelAnimationFrame").mockImplementation(() => {});
+
+    const { container } = render(<UserDashboard />);
+
+    const input = screen.getByPlaceholderText(/search by name/i);
+    await user.type(input, "a");
+    await user.click(screen.getByRole("button", { name: /^search$/i }));
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
+
+    const main = container.querySelector("main");
+    const results = screen.getByRole("region", { name: /search results/i }) as HTMLElement;
+    expect(main).toBeTruthy();
+
+    Object.defineProperty(results, "scrollHeight", { value: 2000, configurable: true });
+    Object.defineProperty(results, "clientHeight", { value: 500, configurable: true });
+    results.scrollTop = 0;
+
+    fireEvent.wheel(main as HTMLElement, { deltaY: 120 });
+
+    expect(results.scrollTop).toBe(120);
+
+    rafSpy.mockRestore();
+    cancelSpy.mockRestore();
+  });
+
+  it("updates scroll progress and header transforms when results scroll", async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { container } = render(<UserDashboard />);
+
+    const input = screen.getByPlaceholderText(/search by name/i);
+    await user.type(input, "a");
+    await user.click(screen.getByRole("button", { name: /^search$/i }));
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
+
+    const main = container.querySelector("main") as HTMLElement;
+    const titleLink = container.querySelector('a[href="/"]') as HTMLAnchorElement;
+    const results = screen.getByRole("region", { name: /search results/i }) as HTMLElement;
+
+    results.scrollTop = 75;
+    fireEvent.scroll(results);
+
+    expect(main.style.getPropertyValue("--scroll-progress")).not.toBe("");
+    expect(titleLink.style.transform).not.toBe("");
+  });
+
+  it("clears header transforms when switching to mobile", async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { container } = render(<UserDashboard />);
+
+    const input = screen.getByPlaceholderText(/search by name/i);
+    await user.type(input, "a");
+    await user.click(screen.getByRole("button", { name: /^search$/i }));
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
+
+    const main = container.querySelector("main") as HTMLElement;
+    const titleLink = container.querySelector('a[href="/"]') as HTMLAnchorElement;
+    const results = screen.getByRole("region", { name: /search results/i }) as HTMLElement;
+
+    results.scrollTop = 150;
+    fireEvent.scroll(results);
+
+    expect(titleLink.style.transform).not.toBe("");
+
+    window.innerWidth = 375;
+    fireEvent(window, new Event("resize"));
+
+    expect(titleLink.style.transform).toBe("");
+    expect(main.style.getPropertyValue("--scroll-progress")).toBe("0");
   });
 });

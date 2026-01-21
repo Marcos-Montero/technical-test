@@ -18,6 +18,18 @@ describe("FilterBadges", () => {
     expect(screen.getByText(/filter by/i)).toBeInTheDocument();
   });
 
+  it("does not render a legend element (uses inline label)", () => {
+    const { container } = render(
+      <FilterBadges
+        activeFilters={defaultActiveFilters}
+        onFilterChange={vi.fn()}
+        allActive={false}
+      />,
+    );
+    expect(container.querySelector("legend")).toBeNull();
+    expect(screen.getByText(/filter by/i)).toBeInTheDocument();
+  });
+
   it("renders all role badges", () => {
     render(
       <FilterBadges
@@ -84,5 +96,17 @@ describe("FilterBadges", () => {
 
     rerender(<FilterBadges activeFilters={["admin"]} onFilterChange={vi.fn()} allActive={false} />);
     expect(adminButton.className).toContain("active");
+  });
+
+  it("renders when isCollapsed is true", () => {
+    render(
+      <FilterBadges
+        activeFilters={defaultActiveFilters}
+        onFilterChange={vi.fn()}
+        allActive={false}
+        isCollapsed={true}
+      />,
+    );
+    expect(screen.getByRole("group")).toBeInTheDocument();
   });
 });

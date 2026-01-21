@@ -90,4 +90,9 @@ describe("SearchInput", () => {
     await user.click(screen.getByRole("button", { name: /^search$/i }));
     expect(screen.getByRole("alert")).toHaveTextContent(/cannot contain numbers/i);
   });
+
+  it("renders when isCollapsed is true", () => {
+    render(<SearchInput onSearch={vi.fn()} isCollapsed={true} />);
+    expect(screen.getByRole("textbox")).toBeInTheDocument();
+  });
 });

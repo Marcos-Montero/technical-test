@@ -9,34 +9,38 @@ export const FilterBadges = ({
   activeFilters,
   onFilterChange,
   allActive,
+  isCollapsed = false,
 }: {
   activeFilters: UserRole[];
   onFilterChange: (role: UserRole) => void;
   allActive: boolean;
+  isCollapsed?: boolean;
 }) => {
   const isActive = (role: UserRole) => activeFilters.includes(role);
 
   return (
-    <fieldset className={styles.container} aria-label="Filter users by role">
-      <legend className={styles.legend}>Filter by:</legend>
-      {ROLES.map((role) => (
-        <button
-          key={role}
-          type="button"
-          className={cn(
-            styles.filterButton,
-            !allActive && isActive(role) && styles.active,
-            !allActive && !isActive(role) && styles.inactive,
-          )}
-          onClick={() => onFilterChange(role)}
-          aria-pressed={isActive(role)}
-          aria-label={`Filter by ${role} role`}
-        >
-          <Badge variant={role} className={styles.badge}>
-            {role.toUpperCase()}
-          </Badge>
-        </button>
-      ))}
-    </fieldset>
+    <div className={cn(styles.wrapper, isCollapsed && styles.collapsed)}>
+      <fieldset className={styles.container} aria-label="Filter users by role">
+        <span className={styles.legend}>Filter by:</span>
+        {ROLES.map((role) => (
+          <button
+            key={role}
+            type="button"
+            className={cn(
+              styles.filterButton,
+              !allActive && isActive(role) && styles.active,
+              !allActive && !isActive(role) && styles.inactive,
+            )}
+            onClick={() => onFilterChange(role)}
+            aria-pressed={isActive(role)}
+            aria-label={`Filter by ${role} role`}
+          >
+            <Badge variant={role} className={cn(styles.badge, isCollapsed && styles.collapsedBadge)}>
+              {role.toUpperCase()}
+            </Badge>
+          </button>
+        ))}
+      </fieldset>
+    </div>
   );
 };
