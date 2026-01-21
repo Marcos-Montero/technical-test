@@ -16,7 +16,27 @@ pnpm install
 
 # And run the project
 pnpm dev
+
+# Run tests
+pnpm test
 ```
+
+## Features
+
+- **User Search**: Search users by name with debounced input
+- **Role Filtering**: Filter users by role using toggle badges
+- **Dual View Modes**: Switch between card grid and table list views
+- **Responsive Design**: Grid scales from 1 to 4 columns based on viewport
+- **Loading States**: Skeleton loaders for smooth loading experience
+- **User Details Modal**: View complete user information in a modal overlay
+
+## Accessibility
+
+- Skip link for keyboard navigation
+- ARIA labels and roles throughout
+- Focus management in modal
+- Keyboard-navigable controls
+- Screen reader announcements for search results
 
 ## Figma file
 
