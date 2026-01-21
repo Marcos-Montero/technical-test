@@ -33,14 +33,12 @@ export const UserDashboard = () => {
 
   const resultsListRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLElement>(null);
-  const titleLinkRef = useRef<HTMLAnchorElement>(null);
-  const searchSectionRef = useRef<HTMLElement>(null);
 
   const isMobile = useIsMobile();
   const { users, isLoading, hasSearched, search } = useUsersSearch();
   const { showTopFade, showBottomFade, checkScrollPosition } = useScrollFades(resultsListRef);
   const { scrollProgress, resetHeaderScrub, updateScrollProgress } = useHeaderScrub(
-    { containerRef, titleLinkRef, searchSectionRef },
+    { containerRef },
     { isMobile, hasSearched },
   );
 
@@ -140,13 +138,13 @@ export const UserDashboard = () => {
       <a href="#results-content" className={styles.skipLink}>
         Skip to main content
       </a>
-      <div className={styles.header}>
-        <a ref={titleLinkRef} href="/" className={styles.titleLink}>
+      <div className={cn(styles.header, isFullyCollapsed && styles.headerCollapsed)}>
+        <a href="/" className={styles.titleLink}>
           <Typography size="Title" as="h1" bold className={styles.title}>
             <span className={styles.titleAccent}>User</span> Dashboard
           </Typography>
         </a>
-        <section ref={searchSectionRef} className={styles.searchSection} aria-label="Search users">
+        <section className={styles.searchSection} aria-label="Search users">
           <SearchInput
             onSearch={handleSearch}
             isLoading={isLoading}

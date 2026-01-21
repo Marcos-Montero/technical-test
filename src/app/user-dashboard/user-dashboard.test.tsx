@@ -284,7 +284,7 @@ describe("UserDashboard", () => {
     cancelSpy.mockRestore();
   });
 
-  it("updates scroll progress and header transforms when results scroll", async () => {
+  it("updates scroll progress and applies collapsed class when scrolling past threshold", async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { container } = render(<UserDashboard />);
 
@@ -296,17 +296,17 @@ describe("UserDashboard", () => {
     });
 
     const main = container.querySelector("main") as HTMLElement;
-    const titleLink = container.querySelector('a[href="/"]') as HTMLAnchorElement;
+    const header = container.querySelector('[class*="header"]') as HTMLElement;
     const results = screen.getByRole("region", { name: /search results/i }) as HTMLElement;
 
     results.scrollTop = 75;
     fireEvent.scroll(results);
 
-    expect(main.style.getPropertyValue("--scroll-progress")).not.toBe("");
-    expect(titleLink.style.transform).not.toBe("");
+    expect(main.style.getPropertyValue("--scroll-progress")).toBe("1");
+    expect(header.className).toContain("headerCollapsed");
   });
 
-  it("clears header transforms when switching to mobile", async () => {
+  it("clears collapsed state when switching to mobile", async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { container } = render(<UserDashboard />);
 
@@ -318,18 +318,18 @@ describe("UserDashboard", () => {
     });
 
     const main = container.querySelector("main") as HTMLElement;
-    const titleLink = container.querySelector('a[href="/"]') as HTMLAnchorElement;
+    const header = container.querySelector('[class*="header"]') as HTMLElement;
     const results = screen.getByRole("region", { name: /search results/i }) as HTMLElement;
 
     results.scrollTop = 150;
     fireEvent.scroll(results);
 
-    expect(titleLink.style.transform).not.toBe("");
+    expect(header.className).toContain("headerCollapsed");
 
     window.innerWidth = 375;
     fireEvent(window, new Event("resize"));
 
-    expect(titleLink.style.transform).toBe("");
+    expect(header.className).not.toContain("headerCollapsed");
     expect(main.style.getPropertyValue("--scroll-progress")).toBe("0");
   });
 });

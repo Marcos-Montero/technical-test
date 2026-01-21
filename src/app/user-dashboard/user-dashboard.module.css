@@ -208,14 +208,18 @@
   .container {
     --scroll-progress: 0;
     --expanded-padding: 192px;
-    --collapsed-padding: 0px;
+    --collapsed-padding: 72px;
     --title-expanded: 48px;
     --title-collapsed: 24px;
     --title-margin-expanded: 40px;
-    --title-margin-collapsed: 0px;
     --search-max-expanded: 560px;
     --search-max-collapsed: 400px;
 
+    padding-top: var(--expanded-padding);
+    transition: padding-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .collapsible.container {
     padding-top: calc(
       var(--expanded-padding) -
       (var(--expanded-padding) - var(--collapsed-padding)) *
@@ -228,47 +232,60 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .headerCollapsed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: transparent;
+    z-index: 100;
+    gap: 24px;
   }
 
   .titleLink {
     flex-shrink: 0;
-    transform-origin: left center;
-    will-change: transform;
   }
 
   .title {
     font-size: var(--title-expanded);
     margin-bottom: var(--title-margin-expanded);
     white-space: nowrap;
+    transition:
+      font-size 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      margin-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .collapsible .title {
-    font-size: calc(
-      var(--title-expanded) -
-      (var(--title-expanded) - var(--title-collapsed)) *
-      var(--scroll-progress)
-    );
-    margin-bottom: calc(var(--title-margin-expanded) * (1 - var(--scroll-progress)));
+  .headerCollapsed .title {
+    font-size: var(--title-collapsed);
+    margin-bottom: 0;
   }
 
   .searchSection {
     max-width: var(--search-max-expanded);
     padding: 0 20px;
-    will-change: transform;
+    transition:
+      max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .collapsible .searchSection {
-    max-width: calc(
-      var(--search-max-expanded) -
-      (var(--search-max-expanded) - var(--search-max-collapsed)) *
-      var(--scroll-progress)
-    );
-    padding: 0 calc(20px * (1 - var(--scroll-progress)));
-    flex-shrink: 1;
+  .headerCollapsed .searchSection {
+    max-width: var(--search-max-collapsed);
+    min-width: 0;
+    padding: 0;
+    flex: 1 1 auto;
+    margin-right: 48px;
   }
 
   .filterSection {
     padding: 0;
+    transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .collapsible .filterSection {
@@ -281,6 +298,7 @@
     align-items: center;
     gap: 0;
     padding: 8px 0;
+    transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .collapsible .viewControls {
@@ -294,6 +312,9 @@
 
   .resultsArea {
     max-width: 1200px;
+    transition:
+      max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .collapsible .resultsArea {
@@ -304,16 +325,21 @@
 
   .collapsible .resultsList {
     padding-top: calc(16px * var(--scroll-progress));
+    transition: padding-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
 @media (min-width: 1024px) {
   .container {
     --expanded-padding: 192px;
+    --collapsed-padding: 72px;
     --title-expanded: 60px;
     --title-collapsed: 28px;
     --title-margin-expanded: 48px;
     --search-max-collapsed: 450px;
+  }
+
+  .collapsible.container {
     max-width: calc(1024px + (100% - 1024px) * var(--scroll-progress));
   }
 
@@ -329,9 +355,13 @@
 @media (min-width: 1280px) {
   .container {
     --expanded-padding: 196px;
+    --collapsed-padding: 72px;
     --title-expanded: 60px;
     --title-collapsed: 32px;
     --search-max-collapsed: 500px;
+  }
+
+  .collapsible.container {
     max-width: calc(1280px + (100% - 1280px) * var(--scroll-progress));
   }
 
