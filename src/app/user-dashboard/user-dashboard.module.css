@@ -154,7 +154,6 @@
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 12px;
-  justify-items: center;
   padding: 0 20px;
   box-sizing: border-box;
 }

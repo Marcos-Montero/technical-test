@@ -37,7 +37,7 @@ describe("UserDashboard", () => {
     await user.type(input, "ar");
     await user.click(screen.getByRole("button", { name: /^search$/i }));
 
-    expect(screen.getAllByRole("status", { name: /loading user card/i })).toHaveLength(4);
+    expect(screen.getAllByRole("status", { name: /loading user card/i })).toHaveLength(8);
   });
 
   it("shows results after loading completes", async () => {
